@@ -176,7 +176,7 @@ public class RecordControllerLayout extends FrameLayout implements View.OnClickL
         mRecordView.startRecord();
         mBtnStart.setImageResource(R.drawable.button_stop_record);
         if (mOnRecordListener != null) {
-            mOnRecordListener.onStart();
+            mOnRecordListener.onStartRecord();
         }
         // 开始计时
         mHandler.removeCallbacks(mDurationCounter);
@@ -210,9 +210,9 @@ public class RecordControllerLayout extends FrameLayout implements View.OnClickL
         mTvTime.setText("");
         if (mOnRecordListener != null) {
             if (isCancel) {
-                mOnRecordListener.onCancel();
+                mOnRecordListener.onCancelRecord();
             } else {
-                mOnRecordListener.onStop(duration);
+                mOnRecordListener.onStopRecord(duration);
             }
         }
         // 停止计时
@@ -269,18 +269,18 @@ public class RecordControllerLayout extends FrameLayout implements View.OnClickL
         /**
          * 开始录制
          */
-        void onStart();
+        void onStartRecord();
 
         /**
          * 录制结束
          *
          * @param duration 录制时长
          */
-        void onStop(long duration);
+        void onStopRecord(long duration);
 
         /**
          * 取消录制
          */
-        void onCancel();
+        void onCancelRecord();
     }
 }

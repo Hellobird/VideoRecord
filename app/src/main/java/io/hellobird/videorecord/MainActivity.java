@@ -29,17 +29,17 @@ public class MainActivity extends Activity {
         mController.setDuration(0, 90);
         mController.setOnRecordListener(new RecordControllerLayout.OnRecordListener() {
             @Override
-            public void onStart() {
+            public void onStartRecord() {
                 Toast.makeText(MainActivity.this, "开始录制", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onStop(long duration) {
+            public void onStopRecord(long duration) {
                 Toast.makeText(MainActivity.this, "结束录制，时长" + duration, Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onCancel() {
+            public void onCancelRecord() {
                 Toast.makeText(MainActivity.this, "取消录制", Toast.LENGTH_SHORT).show();
             }
         });
