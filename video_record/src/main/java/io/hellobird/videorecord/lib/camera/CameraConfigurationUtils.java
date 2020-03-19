@@ -428,41 +428,4 @@ public final class CameraConfigurationUtils {
         return result.toString();
     }
 
-    /**
-     * 找到近似支持的帧数
-     *
-     * @param parameters 相机参数
-     * @param frameRate  目标帧数
-     * @return
-     */
-    public static int findCloseFrameRate(Camera.Parameters parameters, int frameRate) {
-        // 帧数参数在相机中会*1000,所以判断的时候 *1000
-        frameRate *= 1000;
-        int resultRate = Integer.MIN_VALUE;
-        List<int[]> rangeList = parameters.getSupportedPreviewFpsRange();
-        if (rangeList != null) {
-            for (int[] range : rangeList) {
-                // 如果在范围内，则直接返回
-                if (frameRate >= range[Camera.Parameters.PREVIEW_FPS_MIN_INDEX] && frameRate <= range[Camera.Parameters.PREVIEW_FPS_MAX_INDEX]) {
-                    resultRate = frameRate;
-                    break;
-                }
-                // 不再范围内，则比较一下更接近的值
-                int minOffset = Math.abs(frameRate - range[Camera.Parameters.PREVIEW_FPS_MIN_INDEX]);
-                int maxOffset = Math.abs(frameRate - range[Camera.Parameters.PREVIEW_FPS_MAX_INDEX]);
-                int currentOffset = Math.abs(frameRate - resultRate);
-                // 找出最小差距
-                int offset = Math.min(Math.min(minOffset, maxOffset), currentOffset);
-                if (offset == minOffset) {
-                    resultRate = range[Camera.Parameters.PREVIEW_FPS_MIN_INDEX];
-                } else if (offset == maxOffset) {
-                    resultRate = range[Camera.Parameters.PREVIEW_FPS_MAX_INDEX];
-                }
-            }
-        }
-        if (resultRate == Integer.MIN_VALUE) {
-            resultRate = frameRate;
-        }
-        return resultRate / 1000;
-    }
 }

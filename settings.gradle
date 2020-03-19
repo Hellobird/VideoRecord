@@ -1,2 +1,2 @@
-include ':app', ':lib'
+include ':app', ':video_record'
 rootProject.name='VideoRecord'
