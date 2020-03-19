@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--BarCodeView-->
+    <declare-styleable name="RecordView">
+        <!--前置后置-->
+        <attr name="facing">
+            <flag name="BACK" value="0" />
+            <flag name="FRONT" value="1" />
+        </attr>
+        <!--视频宽度，只能作参考-->
+        <attr name="videoWidth" format="integer" />
+        <!--视频高度，只能作参考-->
+        <attr name="videoHeight" format="integer" />
+        <!--帧数，如果超过或者小于，会取近似值-->
+        <attr name="frameRate" format="integer" />
+        <!--是否自动打开相机预览-->
+        <attr name="autoOpen" format="boolean" />
+        <!--视频码率，表示视频1秒钟的大小，单位KB，当分辨率固定时，码率越高，质量越好-->
+        <attr name="bitRate" format="integer" />
+    </declare-styleable>
+</resources>
