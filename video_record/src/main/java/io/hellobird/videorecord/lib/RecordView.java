@@ -413,6 +413,15 @@ public class RecordView extends SurfaceView {
     }
 
     /**
+     * 设置摄像头方向
+     *
+     * @param facing 摄像头方向
+     */
+    public void setCameraFacing(CameraFacing facing) {
+        this.mCameraFacing = facing;
+    }
+
+    /**
      * 设置闪光灯
      *
      * @param isOpen true 打开，false 关闭
