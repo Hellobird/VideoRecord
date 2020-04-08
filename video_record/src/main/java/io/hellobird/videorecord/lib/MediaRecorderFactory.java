@@ -82,8 +82,6 @@ public final class MediaRecorderFactory {
         mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP);
         //设置编码帧率，此项会严重影响适配质量，基准数字越高，质量越好
         mediaRecorder.setVideoEncodingBitRate(bitRate);
-        // 设置帧率
-        mediaRecorder.setVideoFrameRate(frameRate);
         return mediaRecorder;
     }
 
