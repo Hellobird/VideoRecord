@@ -10,6 +10,7 @@ import androidx.core.app.ActivityCompat;
 
 import io.hellobird.videorecord.lib.RecordControllerLayout;
 import io.hellobird.videorecord.lib.RecordView;
+import io.hellobird.videorecord.lib.camera.open.CameraFacing;
 
 public class MainActivity extends Activity {
 
@@ -27,6 +28,7 @@ public class MainActivity extends Activity {
         mController = findViewById(R.id.layout_controller);
         mController.bindRecordView(mRecordView);
         mController.setDuration(0, 90);
+        mRecordView.setCameraFacing(CameraFacing.FRONT);
         mController.setOnRecordListener(new RecordControllerLayout.OnRecordListener() {
             @Override
             public void onStartRecord() {

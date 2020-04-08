@@ -172,15 +172,18 @@ public class RecordControllerLayout extends FrameLayout implements View.OnClickL
         if (mRecordView.isRecording()) {
             return;
         }
-        mStartTime = System.currentTimeMillis();
-        mRecordView.startRecord();
-        mBtnStart.setImageResource(R.drawable.button_stop_record);
-        if (mOnRecordListener != null) {
-            mOnRecordListener.onStartRecord();
+        if(mRecordView.startRecord()) {
+            mStartTime = System.currentTimeMillis();
+            mBtnStart.setImageResource(R.drawable.button_stop_record);
+            if (mOnRecordListener != null) {
+                mOnRecordListener.onStartRecord();
+            }
+            // 开始计时
+            mHandler.removeCallbacks(mDurationCounter);
+            mHandler.post(mDurationCounter);
+        } else {
+            Toast.makeText(getContext(), R.string.recording_error,Toast.LENGTH_SHORT).show();
         }
-        // 开始计时
-        mHandler.removeCallbacks(mDurationCounter);
-        mHandler.post(mDurationCounter);
     }
 
     /**

@@ -72,16 +72,22 @@ public final class MediaRecorderFactory {
         //设置视频录制的输出文件为MP4
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
         //计算视频尺寸
-        Point point = findCloseSizeValue(parameters, new Point(resolutionX, resolutionY));
-        mediaRecorder.setVideoSize(point.x, point.y);
+        if (resolutionX > 0 && resolutionY > 0) {
+            Point point = findCloseSizeValue(parameters, new Point(resolutionX, resolutionY));
+            mediaRecorder.setVideoSize(point.x, point.y);
+        }
         //设置帧数
-        mediaRecorder.setVideoFrameRate(findCloseFrameRate(parameters, frameRate));
+        if (frameRate>0) {
+            mediaRecorder.setVideoFrameRate(findCloseFrameRate(parameters, frameRate));
+        }
         //设置音频编码方式为AAC
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         //设置录制的视频编码为MPEG_4_SP
         mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP);
         //设置编码帧率，此项会严重影响适配质量，基准数字越高，质量越好
-        mediaRecorder.setVideoEncodingBitRate(bitRate);
+        if (bitRate > 0) {
+            mediaRecorder.setVideoEncodingBitRate(bitRate);
+        }
         return mediaRecorder;
     }
 

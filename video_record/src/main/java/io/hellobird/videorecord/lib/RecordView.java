@@ -247,10 +247,9 @@ public class RecordView extends SurfaceView {
                 mVideoRecorder.prepare();
                 mVideoRecorder.start();
                 return true;
-            } catch (IllegalStateException e) {
+            } catch (Exception e){
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+                camera.lock();
             }
         } else {
             Log.w("RecordView", "========== open camera first =========");
@@ -264,9 +263,12 @@ public class RecordView extends SurfaceView {
      */
     public void stopRecord() {
         if (mRecording) {
-            mVideoRecorder.stop();
-            mVideoRecorder.reset();
-            mVideoRecorder.release();
+            try {
+                mVideoRecorder.stop();
+                mVideoRecorder.reset();
+                mVideoRecorder.release();
+            }catch (Exception e){
+            }
             Camera camera = mCameraManager.getCamera();
             if (camera != null) {
                 camera.lock();
