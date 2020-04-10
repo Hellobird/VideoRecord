@@ -15,6 +15,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import io.hellobird.videorecord.lib.camera.open.CameraFacing;
+
 
 /*******************************************************************
  * RecordControllerLayout.java  2020-03-18
@@ -38,6 +40,11 @@ public class RecordControllerLayout extends FrameLayout implements View.OnClickL
      * 录制按钮
      */
     private ImageButton mBtnStart;
+
+    /**
+     * 切换摄像头
+     */
+    private ImageButton mBtnReverse;
 
     /**
      * 录制时间
@@ -69,6 +76,11 @@ public class RecordControllerLayout extends FrameLayout implements View.OnClickL
      */
     private OnRecordListener mOnRecordListener;
 
+    /**
+     * 上次点击按钮事件
+     */
+    private long mLastClickTime;
+
 
     public RecordControllerLayout(@NonNull Context context) {
         this(context, null);
@@ -82,8 +94,10 @@ public class RecordControllerLayout extends FrameLayout implements View.OnClickL
         super(context, attrs, defStyleAttr);
         View layoutController = LayoutInflater.from(context).inflate(R.layout.layout_record_controller, this);
         mBtnStart = layoutController.findViewById(R.id.btn_start);
+        mBtnReverse = layoutController.findViewById(R.id.btn_reverse);
         mTvTime = layoutController.findViewById(R.id.tv_time);
         mBtnStart.setOnClickListener(this);
+        mBtnReverse.setOnClickListener(this);
         mHandler = new Handler(Looper.getMainLooper());
     }
 
@@ -153,14 +167,34 @@ public class RecordControllerLayout extends FrameLayout implements View.OnClickL
 
     @Override
     public void onClick(View v) {
+        // 防止点击过快
+        if (System.currentTimeMillis() - mLastClickTime < 2000){
+            return;
+        }
+        mLastClickTime = System.currentTimeMillis();
         if (mRecordView == null) {
             Log.w("RecordControllerLayout", "请先绑定 RecordView");
             return;
         }
-        if (mRecordView.isRecording()) {
-            stopRecord(false);
-        } else {
-            startRecord();
+        if (v.getId() == R.id.btn_start) {
+            if (mRecordView.isRecording()) {
+                stopRecord(false);
+                mBtnReverse.setVisibility(VISIBLE);
+            } else {
+                startRecord();
+                mBtnReverse.setVisibility(GONE);
+            }
+        } else if (v.getId() == R.id.btn_reverse){
+            if (mRecordView.isRecording()){
+                return;
+            }
+            CameraFacing facing = mRecordView.getCameraFacing();
+            if (facing == CameraFacing.FRONT){
+                mRecordView.setCameraFacing(CameraFacing.BACK);
+            } else {
+                mRecordView.setCameraFacing(CameraFacing.FRONT);
+            }
+            mRecordView.openCamera();
         }
     }
 
@@ -172,7 +206,7 @@ public class RecordControllerLayout extends FrameLayout implements View.OnClickL
         if (mRecordView.isRecording()) {
             return;
         }
-        if(mRecordView.startRecord()) {
+        if (mRecordView.startRecord()) {
             mStartTime = System.currentTimeMillis();
             mBtnStart.setImageResource(R.drawable.button_stop_record);
             if (mOnRecordListener != null) {
@@ -182,7 +216,7 @@ public class RecordControllerLayout extends FrameLayout implements View.OnClickL
             mHandler.removeCallbacks(mDurationCounter);
             mHandler.post(mDurationCounter);
         } else {
-            Toast.makeText(getContext(), R.string.recording_error,Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.recording_error, Toast.LENGTH_SHORT).show();
         }
     }
 

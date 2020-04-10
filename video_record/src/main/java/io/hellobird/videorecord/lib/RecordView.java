@@ -247,7 +247,7 @@ public class RecordView extends SurfaceView {
                 mVideoRecorder.prepare();
                 mVideoRecorder.start();
                 return true;
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 camera.lock();
             }
@@ -267,7 +267,7 @@ public class RecordView extends SurfaceView {
                 mVideoRecorder.stop();
                 mVideoRecorder.reset();
                 mVideoRecorder.release();
-            }catch (Exception e){
+            } catch (Exception e) {
             }
             Camera camera = mCameraManager.getCamera();
             if (camera != null) {
@@ -421,6 +421,15 @@ public class RecordView extends SurfaceView {
      */
     public void setCameraFacing(CameraFacing facing) {
         this.mCameraFacing = facing;
+    }
+
+    /**
+     * 获取摄像头方向
+     *
+     * @return
+     */
+    public CameraFacing getCameraFacing() {
+        return mCameraFacing;
     }
 
     /**
