@@ -81,12 +81,12 @@ public final class MediaRecorderFactory {
             mediaRecorder.setVideoFrameRate(findCloseFrameRate(parameters, frameRate));
         }
         //设置音频编码方式为AAC
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
         //设置录制的视频编码为MPEG_4_SP
-        mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP);
+        mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.DEFAULT);
         //设置编码帧率，此项会严重影响适配质量，基准数字越高，质量越好
         if (bitRate > 0) {
-            mediaRecorder.setVideoEncodingBitRate(bitRate);
+//            mediaRecorder.setVideoEncodingBitRate(bitRate);
         }
         return mediaRecorder;
     }
